@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/!svn/ver/200/trunk/OurSim/src-tests/br/edu/ufcg/lsd/oursim/policy
+END
+NoFOurGridPersistentSchedulerMultiplePeersTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/!svn/ver/200/trunk/OurSim/src-tests/br/edu/ufcg/lsd/oursim/policy/NoFOurGridPersistentSchedulerMultiplePeersTest.java
+END
+NoFSharingPolicyTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/!svn/ver/185/trunk/OurSim/src-tests/br/edu/ufcg/lsd/oursim/policy/NoFSharingPolicyTest.java
+END
+OurGridPersistentSchedulerTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/!svn/ver/214/trunk/OurSim/src-tests/br/edu/ufcg/lsd/oursim/policy/OurGridPersistentSchedulerTest.java
+END
+OurGridReplicationSchedulerTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/!svn/ver/185/trunk/OurSim/src-tests/br/edu/ufcg/lsd/oursim/policy/OurGridReplicationSchedulerTest.java
+END
+OurGridPersistentSchedulerMultiplePeersTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/!svn/ver/214/trunk/OurSim/src-tests/br/edu/ufcg/lsd/oursim/policy/OurGridPersistentSchedulerMultiplePeersTest.java
+END

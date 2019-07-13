@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/!svn/ver/175/trunk/OurSim/src/br/edu/ufcg/lsd/oursim/io/input/availability/markovmodel
+END
+HostAvailabilityGenerator.java
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/!svn/ver/175/trunk/OurSim/src/br/edu/ufcg/lsd/oursim/io/input/availability/markovmodel/HostAvailabilityGenerator.java
+END
+HostAvailabilityGeneratorImp.java
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svn/!svn/ver/134/trunk/OurSim/src/br/edu/ufcg/lsd/oursim/io/input/availability/markovmodel/HostAvailabilityGeneratorImp.java
+END
+StateModel.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/!svn/ver/134/trunk/OurSim/src/br/edu/ufcg/lsd/oursim/io/input/availability/markovmodel/StateModel.java
+END
+StateModelImp.java
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/!svn/ver/134/trunk/OurSim/src/br/edu/ufcg/lsd/oursim/io/input/availability/markovmodel/StateModelImp.java
+END

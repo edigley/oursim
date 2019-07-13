@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/200/trunk/OurSim/src/br/edu/ufcg/lsd/oursim/entities/util
+END
+ResourceManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/!svn/ver/199/trunk/OurSim/src/br/edu/ufcg/lsd/oursim/entities/util/ResourceManager.java
+END
+ResourceAllocationManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/!svn/ver/200/trunk/OurSim/src/br/edu/ufcg/lsd/oursim/entities/util/ResourceAllocationManager.java
+END
+TaskManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/!svn/ver/184/trunk/OurSim/src/br/edu/ufcg/lsd/oursim/entities/util/TaskManager.java
+END
+package-info.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/!svn/ver/88/trunk/OurSim/src/br/edu/ufcg/lsd/oursim/entities/util/package-info.java
+END

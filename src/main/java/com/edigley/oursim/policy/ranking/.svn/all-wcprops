@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/!svn/ver/201/trunk/OurSim/src/br/edu/ufcg/lsd/oursim/policy/ranking
+END
+TaskPreemptionRankingPolicy.java
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/!svn/ver/200/trunk/OurSim/src/br/edu/ufcg/lsd/oursim/policy/ranking/TaskPreemptionRankingPolicy.java
+END
+ResourceRankingPolicy.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/!svn/ver/88/trunk/OurSim/src/br/edu/ufcg/lsd/oursim/policy/ranking/ResourceRankingPolicy.java
+END
+RankingPolicy.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/!svn/ver/125/trunk/OurSim/src/br/edu/ufcg/lsd/oursim/policy/ranking/RankingPolicy.java
+END
+PeerRankingPolicy.java
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/!svn/ver/201/trunk/OurSim/src/br/edu/ufcg/lsd/oursim/policy/ranking/PeerRankingPolicy.java
+END
+package-info.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/88/trunk/OurSim/src/br/edu/ufcg/lsd/oursim/policy/ranking/package-info.java
+END

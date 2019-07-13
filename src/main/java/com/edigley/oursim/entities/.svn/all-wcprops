@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/215/trunk/OurSim/src/br/edu/ufcg/lsd/oursim/entities
+END
+Job.java
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/!svn/ver/215/trunk/OurSim/src/br/edu/ufcg/lsd/oursim/entities/Job.java
+END
+File.java
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/144/trunk/OurSim/src/br/edu/ufcg/lsd/oursim/entities/File.java
+END
+Machine.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/184/trunk/OurSim/src/br/edu/ufcg/lsd/oursim/entities/Machine.java
+END
+Grid.java
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/216/trunk/OurSim/src/br/edu/ufcg/lsd/oursim/entities/Grid.java
+END
+Task.java
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/215/trunk/OurSim/src/br/edu/ufcg/lsd/oursim/entities/Task.java
+END
+package-info.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/88/trunk/OurSim/src/br/edu/ufcg/lsd/oursim/entities/package-info.java
+END
+ComputableElement.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/179/trunk/OurSim/src/br/edu/ufcg/lsd/oursim/entities/ComputableElement.java
+END
+TaskExecution.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/184/trunk/OurSim/src/br/edu/ufcg/lsd/oursim/entities/TaskExecution.java
+END
+Processor.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/!svn/ver/184/trunk/OurSim/src/br/edu/ufcg/lsd/oursim/entities/Processor.java
+END
+Peer.java
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/216/trunk/OurSim/src/br/edu/ufcg/lsd/oursim/entities/Peer.java
+END

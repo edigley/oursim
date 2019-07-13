@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/184/trunk/OurSim/src/br/edu/ufcg/lsd/oursim/dispatchableevents/taskevents
+END
+TaskEventFilter.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/!svn/ver/123/trunk/OurSim/src/br/edu/ufcg/lsd/oursim/dispatchableevents/taskevents/TaskEventFilter.java
+END
+TaskEventDispatcher.java
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/!svn/ver/184/trunk/OurSim/src/br/edu/ufcg/lsd/oursim/dispatchableevents/taskevents/TaskEventDispatcher.java
+END
+TaskEventListener.java
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/!svn/ver/144/trunk/OurSim/src/br/edu/ufcg/lsd/oursim/dispatchableevents/taskevents/TaskEventListener.java
+END
+TaskEventCounter.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/!svn/ver/184/trunk/OurSim/src/br/edu/ufcg/lsd/oursim/dispatchableevents/taskevents/TaskEventCounter.java
+END
+TaskEventListenerAdapter.java
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/!svn/ver/184/trunk/OurSim/src/br/edu/ufcg/lsd/oursim/dispatchableevents/taskevents/TaskEventListenerAdapter.java
+END
