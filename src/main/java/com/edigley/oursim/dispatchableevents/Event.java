@@ -50,9 +50,9 @@ public class Event<T> extends EventObject {
 	}
 
 	/**
-	 * Gets the instant at which this event have occurred.
+	 * Gets the instant at which this event has occurred.
 	 * 
-	 * @return The instant at which this event have occurred.
+	 * @return The instant at which this event has occurred.
 	 */
 	public final long getTime() {
 		assert time != null;

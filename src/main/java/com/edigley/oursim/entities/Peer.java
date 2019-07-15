@@ -24,8 +24,8 @@ import com.edigley.oursim.simulationevents.ActiveEntityImp;
 
 /**
  * 
- * Represents a peer in a Peer-to-Peer grid. A peer is a administrative domain
- * that holds and manages a collection of machines. The management is based in a
+ * Represents a peer in a Peer-to-Peer grid. A peer is an administrative domain
+ * that owns and manages a collection of machines. The management is based on a
  * group of policies represented by {@link ResourceAllocationManager},
  * {@link ResourceSharingPolicy} and {@link ResourceRankingPolicy}.
  * 

@@ -176,6 +176,7 @@ public final class EventQueue implements Closeable {
 			if (this.currentTime > pq.peek().getTime()) {
 				System.err.println("EventQueue: " + this);
 				System.err.println("Event:" + pq.peek());
+				System.err.println("Event is in the past!");
 				System.err.println("Offending Event! " + pq.peek() + ". CurrentTime: " + currentTime);
 				System.exit(1);
 			}

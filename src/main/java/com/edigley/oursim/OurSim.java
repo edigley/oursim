@@ -146,8 +146,7 @@ public class OurSim {
 			while (queue.peek() != null && queue.peek().getTime() == currentTime) {
 				TimedEvent nextEventInCurrentTime = queue.poll();
 
-				// TODO Adicionar a estrutura de listeners para o
-				// HaltSimulationEvent
+				// TODO Adicionar a estrutura de listeners para o HaltSimulationEvent
 				if (nextEventInCurrentTime instanceof HaltSimulationEvent) {
 					queue.clear();
 					jobScheduler.stop();
@@ -209,7 +208,7 @@ public class OurSim {
 
 	/**
 	 * Adds all the next job's submission events to the queue, that is, all the
-	 * events schedulled to occurs in the next simulation time.
+	 * events scheduled to occurs in the next simulation time.
 	 * 
 	 * @param jobScheduler
 	 *            the scheduler of the jobs.

@@ -49,7 +49,7 @@ public class Task extends ComputableElement implements Comparable<Task>,
 	private List<File> outputs;
 
 	/**
-	 * The instant at which this task started to running. Through its lifetime a
+	 * The instant at which this task starts to run. Through its lifetime a
 	 * task may have several start times, but only the latter represents the
 	 * definite initial time. If this task is running this field holds a valid
 	 * long value, otherwise this field must remains <code>null</code>.
@@ -77,7 +77,7 @@ public class Task extends ComputableElement implements Comparable<Task>,
 	private Peer targetPeer = null;
 
 	/**
-	 * The convenient object that is responsible by the execution of this task.
+	 * The convenient object that is responsible for the execution of this task.
 	 * In the same way of the field {@link #targetPeer}, if this task is not
 	 * running and hasn't been finished yet, this field remains
 	 * <code>null</code>.
@@ -85,7 +85,7 @@ public class Task extends ComputableElement implements Comparable<Task>,
 	private TaskExecution taskExecution;
 
 	/**
-	 * The total of preemptions suffered by this task.
+	 * The number of preemptions suffered by this task.
 	 */
 	private int numberOfpreemptions;
 
@@ -98,7 +98,7 @@ public class Task extends ComputableElement implements Comparable<Task>,
 
 	private boolean cancelled = false;
 
-	private boolean hasLocallyRunned = false;
+	private boolean hasRunnedLocally = false;
 
 	private double bidValue;
 
@@ -225,7 +225,7 @@ public class Task extends ComputableElement implements Comparable<Task>,
 	public void finish(long time) {
 		assert this.finishTime == null || isAnyReplicaFinished();
 		assert this.startTime != null;
-		this.hasLocallyRunned = this.sourceJob.getSourcePeer().hasMachine(
+		this.hasRunnedLocally = this.sourceJob.getSourcePeer().hasMachine(
 				this.taskExecution.getMachine().getName());
 		this.taskExecution.finish();
 		this.finishTime = time;
@@ -438,7 +438,7 @@ public class Task extends ComputableElement implements Comparable<Task>,
 				replica.startTime = this.startTime;
 				replica.cancelled = false;
 				replica.targetPeer = this.targetPeer;
-				replica.hasLocallyRunned = this.hasLocallyRunned;
+				replica.hasRunnedLocally = this.hasRunnedLocally;
 				break;
 			}
 		}
@@ -482,7 +482,7 @@ public class Task extends ComputableElement implements Comparable<Task>,
 	}
 
 	public boolean hasLocallyRunned() {
-		return hasLocallyRunned;
+		return hasRunnedLocally;
 	}
 
 	public double getWastedTime() {
