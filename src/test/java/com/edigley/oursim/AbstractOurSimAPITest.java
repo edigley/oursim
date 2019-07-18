@@ -111,7 +111,6 @@ public abstract class AbstractOurSimAPITest {
 		TaskEventDispatcher.getInstance().removeListener(taskEventCounter);
 		EventQueue.totalNumberOfEvents = 0;
 		nextJobId = 0;
-
 	}
 
 	protected Workload generateDefaultWorkload() {

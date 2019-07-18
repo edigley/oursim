@@ -32,7 +32,7 @@ public class StartedTaskEvent extends TaskTimedEvent {
 		Task Task = (Task) source;
 		if (!Task.isCancelled()) {
 			TaskEventDispatcher.getInstance().dispatchTaskStarted(Task);
-		} else{
+		} else {
 			System.out.println("tava tentando startar uma task já cancelada: " + Task);
 		}
 	}

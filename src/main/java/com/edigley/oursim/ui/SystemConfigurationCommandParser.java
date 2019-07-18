@@ -44,7 +44,9 @@ public class SystemConfigurationCommandParser {
 			} else {
 				showMessageAndExit("Já foi adicionado um peer com esse nome: " + peerName);
 			}
+			scLine.close();
 		}
+		scPeers.close();
 
 		Scanner scMachines = new Scanner(machinesDescription);
 		scMachines.nextLine(); // skip header
@@ -63,7 +65,9 @@ public class SystemConfigurationCommandParser {
 			} else {
 				showMessageAndExit("A máquina " + machineName + " pertence a um Peer que não existe: " + sourcePeerName);
 			}
+			scLine.close();
 		}
+		scMachines.close();
 		return grid;
 
 	}
@@ -90,7 +94,9 @@ public class SystemConfigurationCommandParser {
 			} else {
 				showMessageAndExit("Já foi adicionado um peer com esse nome: " + peerName);
 			}
+			scLine.close();
 		}
+		sc.close();
 		return grid;
 	}
 
@@ -109,7 +115,9 @@ public class SystemConfigurationCommandParser {
 					peer.addMachine(new Machine(machineFullName, Processor.EC2_COMPUTE_UNIT.getSpeed()));
 				}
 			}
+			scLine.close();
 		}
+		sc.close();
 	}
 
 }
