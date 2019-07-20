@@ -1,5 +1,9 @@
 package com.edigley.oursim.entities;
 
+import java.util.List;
+
+import com.google.common.collect.Lists;
+
 public class TaskExecution {
 
 	/**
@@ -11,35 +15,40 @@ public class TaskExecution {
 
 	private long remainingSize;
 
-	private Task Task;
+	private Task task;
 
-	private Processor processor;
+	private List<Processor> processors;
 
-	public TaskExecution(Task Task, Processor processor, long startTime) {
-		assert !processor.isBusy() : Task + " -> " + processor;
-		if (processor.isBusy()) {
-			throw new IllegalArgumentException("The processor has been already in execution.");
+	public TaskExecution(Task task, Processor processor, long startTime) {
+		this(task, Lists.newArrayList(processor), startTime);
+	}
+	
+	public TaskExecution(Task task, List<Processor> processors, long startTime) {
+		this.processors = processors;
+		for (Processor processor : processors) {			
+			assert !processor.isBusy() : task + " -> " + processor;
+			if (processor.isBusy()) {
+				throw new IllegalArgumentException("The processor is already executing some other task.");
+			}
+			this.task = task;
+			processor.busy();
+			// this.size =
+			// Processor.EC2_COMPUTE_UNIT.calculateNumberOfInstructionsProcessed(this.task.getDuration());
+			this.size = convertTaskDurationToNumberOfInstruction(task);
+			this.remainingSize = size;
+			this.previousTime = startTime;
+			// TODO talvez nesse momento já devesse setar o startTime da Task, para
+			// não deixar para alguém externo fazer isso
 		}
-		this.Task = Task;
-		this.processor = processor;
-		this.processor.busy();
-		// this.size =
-		// Processor.EC2_COMPUTE_UNIT.calculateNumberOfInstructionsProcessed(this.task.getDuration());
-		this.size = convertTaskDurationToNumberOfInstruction(Task);
-		this.remainingSize = size;
-		this.previousTime = startTime;
-		// TODO talvez nesse momento já devesse setar o startTime da Task, para
-		// não deixar para alguém externo fazer isso
 	}
 
 	private long convertTaskDurationToNumberOfInstruction(Task Task) {
 		Peer sourcePeer = Task.getSourcePeer();
 		Processor referenceProcessor = sourcePeer.getReferenceProcessor();
-		return referenceProcessor.calculateNumberOfInstructionsProcessed(this.Task.getDuration());
+		return referenceProcessor.calculateNumberOfInstructionsProcessed(this.task.getDuration());
 	}
 
 	/**
-	 * @param processor
 	 * @param currentTime
 	 * @return The time lacking to this Task be finished in that processor.
 	 */
@@ -50,17 +59,17 @@ public class TaskExecution {
 		long timeElapsed = currentTime - previousTime;
 
 		// TODO: verificar as consequências do remaining time negativo.
-		this.remainingSize -= processor.calculateNumberOfInstructionsProcessed(timeElapsed);
+		this.remainingSize -= processors.get(0).calculateNumberOfInstructionsProcessed(timeElapsed);
 
 		this.previousTime = currentTime;
 
-		return (remainingSize <= 0) ? 0 : processor.calculateTimeToExecute(remainingSize);
+		return (remainingSize <= 0) ? 0 : processors.get(0).calculateTimeToExecute(remainingSize);
 
 	}
 
 	public Long getRemainingTimeToFinish() {
 		if (remainingSize > 0) {
-			return processor.calculateTimeToExecute(remainingSize);
+			return processors.get(0).calculateTimeToExecute(remainingSize);
 		} else {
 			return 0L;
 		}
@@ -70,20 +79,26 @@ public class TaskExecution {
 		return previousTime + getRemainingTimeToFinish();
 	}
 
-	public void setProcessor(Processor processor) {
-		this.processor = processor;
+	public void setProcessors(List<Processor> processors) {
+		this.processors = processors;
 	}
 
+	public void setProcessor(Processor processor) {
+		this.processors = Lists.newArrayList(processor);
+	}
+	
 	public Machine getMachine() {
-		return this.processor.getMachine();
+		return this.processors.get(0).getMachine();
 	}
 
 	public void finish() {
-		this.processor.free();
+		for (Processor processor : processors) {
+			processor.free();
+		}
 	}
 
-	public Processor getProcessor() {
-		return this.processor;
+	public List<Processor> getProcessor() {
+		return this.processors;
 	}
 
 }

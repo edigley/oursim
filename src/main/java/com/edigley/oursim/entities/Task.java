@@ -19,14 +19,13 @@ import org.apache.commons.lang.builder.ToStringStyle;
  * @see Job
  * @see Processor
  */
-public class Task extends ComputableElement implements Comparable<Task>,
-		Cloneable {
+public class Task extends ComputableElement implements Comparable<Task>, Cloneable {
 
 	private static final long SOURCE_TASK_REPLICA_ID = 0l;
 
 	/**
-	 * The duration in unit of simulation (seconds) of this Task, considered
-	 * when executed in an reference machine.
+	 * The duration in unit of simulation (seconds) of this Task, considered when
+	 * executed in an reference machine.
 	 * 
 	 * TODO: specify what a reference machine is.
 	 * 
@@ -34,32 +33,37 @@ public class Task extends ComputableElement implements Comparable<Task>,
 	private final long duration;
 
 	/**
+	 * The number of cores required to run this task in {@link duration} time.
+	 */
+	private int numberOfCores = 1;
+
+	/**
 	 * The executable of this task.
 	 */
 	private File executable;
 
 	/**
-	 * The collection of input to a task. ideally, this mustn't be empty.
+	 * The collection of input to a task. Ideally, it shouldn't be empty.
 	 */
 	private List<File> inputs;
 
 	/**
-	 * The collection of output of a task. ideally, this mustn't be empty.
+	 * The collection of output of a task. Ideally, it shouldn't be empty.
 	 */
 	private List<File> outputs;
 
 	/**
-	 * The instant at which this task starts to run. Through its lifetime a
-	 * task may have several start times, but only the latter represents the
-	 * definite initial time. If this task is running this field holds a valid
-	 * long value, otherwise this field must remains <code>null</code>.
+	 * The instant at which this task starts to run. Through its lifetime a task may
+	 * have several start times, but only the latter represents the ultimate initial
+	 * time. If this task is running, this field holds a valid long value, otherwise
+	 * this field must remains <code>null</code>.
 	 */
 	private Long startTime = null;
 
 	/**
-	 * The instant at which this task has been finished. Through its lifetime a
-	 * task have only one finishTime. As long this task is unfinished, its
-	 * finishTime must remains <code>null</code>.
+	 * The instant at which this task has been finished. Through its lifetime a task
+	 * have only one finishTime. As long as this task is unfinished, its finishTime
+	 * must remains <code>null</code>.
 	 */
 	private Long finishTime = null;
 
@@ -69,18 +73,16 @@ public class Task extends ComputableElement implements Comparable<Task>,
 	private Job sourceJob;
 
 	/**
-	 * The {@link Peer} that holds the {@link Machine} in which this task is
-	 * running or have been processed, in case it have been finished. If this
-	 * task is not running and hasn't been finished yet, this field remains
-	 * <code>null</code>.
+	 * The {@link Peer} that owns the {@link Machine} in which this task is running
+	 * or have been processed, in case it have been finished. If this task is not
+	 * running and hasn't been finished yet, this field remains <code>null</code>.
 	 */
 	private Peer targetPeer = null;
 
 	/**
-	 * The convenient object that is responsible for the execution of this task.
-	 * In the same way of the field {@link #targetPeer}, if this task is not
-	 * running and hasn't been finished yet, this field remains
-	 * <code>null</code>.
+	 * The convenient object that is responsible for the execution of this task. In
+	 * the same way of the field {@link #targetPeer}, if this task is not running
+	 * and hasn't been finished yet, this field remains <code>null</code>.
 	 */
 	private TaskExecution taskExecution;
 
@@ -90,7 +92,7 @@ public class Task extends ComputableElement implements Comparable<Task>,
 	private int numberOfpreemptions;
 
 	/**
-	 * all the replicas of this tasks, including itself
+	 * all the replicas of this tasks, including itself.
 	 */
 	private Set<Task> replicas = new TreeSet<Task>();
 
@@ -105,31 +107,37 @@ public class Task extends ComputableElement implements Comparable<Task>,
 	private double cost;
 
 	/**
-	 * Happens due to failures on cancelled tasks.
+	 * Happens due to failed on cancelled tasks.
 	 */
 	private double wastedTime;
 
-	private boolean wasRecentlyPreempted = false;
+	private boolean hasBeenRecentlyPreempted = false;
 
-	public Task(long id, String executable, long duration, long submissionTime,
-			Job sourceJob) {
+	public Task(long id, String executable, long duration, long submissionTime, Job sourceJob) {
 		super(id, submissionTime);
 		this.executable = new File(executable, -1);
 		this.duration = duration;
 		this.sourceJob = sourceJob;
 
-		// toda task também é uma réplica de si mesma.
+		// every task is a replica of itself.
 		this.replicas.add(this);
 		this.replicaId = SOURCE_TASK_REPLICA_ID;
+	}
+
+	public Task(long id, String executable, int numberOfCores, long duration, long submissionTime, Job sourceJob) {
+		this(id, executable, duration, submissionTime, sourceJob);
+		this.numberOfCores = numberOfCores;
+	}
+
+	public Task(long id, String executable, int numberOfCores, long duration, long submissionTime) {
+		this(id, executable, numberOfCores, duration, submissionTime, null);
 	}
 
 	/**
 	 * Adds an input file to this task.
 	 * 
-	 * @param name
-	 *            The name of the file, actually this could represent an path.
-	 * @param size
-	 *            Size in bytes of this File.
+	 * @param name The name of the file. Actually this may represent an path.
+	 * @param size Size in bytes of this File.
 	 */
 	public void addInputFile(String name, long size) {
 		this.inputs.add(new File(name, size));
@@ -138,10 +146,8 @@ public class Task extends ComputableElement implements Comparable<Task>,
 	/**
 	 * Adds an output file to this task.
 	 * 
-	 * @param name
-	 *            The name of the file, actually this could represent an path.
-	 * @param size
-	 *            Size in bytes of this File.
+	 * @param name The name of the file. Actually this could represent an path.
+	 * @param size Size in bytes of this File.
 	 */
 	public void addOutputFile(String name, long size) {
 		this.outputs.add(new File(name, size));
@@ -157,21 +163,19 @@ public class Task extends ComputableElement implements Comparable<Task>,
 	/**
 	 * Sets The job that contains this task.
 	 * 
-	 * @param sourceJob
-	 *            The job that contains this task.
+	 * @param sourceJob The job that contains this task.
 	 */
 	void setSourceJob(Job sourceJob) {
 		this.sourceJob = sourceJob;
 	}
 
 	/**
-	 * Gets the peer that holds the {@link Machine} in which this task is
-	 * running or have been processed, in case it have been finished. If this
-	 * task is not running and hasn't been finished yet, this field remains
-	 * <code>null</code>.
+	 * Gets the peer that owns the {@link Machine} in which this task is running or
+	 * have been processed, in case it have been finished. If this task is not
+	 * running and hasn't been finished yet, this field remains <code>null</code>.
 	 * 
-	 * @return Gets the peer that holds the {@link Machine} in which this task
-	 *         is running or have been processed, otherwise <code>null</code> is
+	 * @return Gets the peer that owns the {@link Machine} in which this task is
+	 *         running or have been processed, otherwise <code>null</code> is
 	 *         returned.
 	 */
 	public Peer getTargetPeer() {
@@ -179,25 +183,23 @@ public class Task extends ComputableElement implements Comparable<Task>,
 	}
 
 	/**
-	 * Gets the responsible by the execution of this task.
+	 * Gets the responsible for the execution of this task.
 	 * 
-	 * @return the responsible by the execution of this task or
-	 *         <code>null</code> if this task is not running and hasn't been
-	 *         finished yet.
+	 * @return the responsible for the execution of this task or <code>null</code>
+	 *         if this task is not running and hasn't been finished yet.
 	 */
 	public TaskExecution getTaskExecution() {
 		return taskExecution;
 	}
 
 	/**
-	 * Sets the responsible by the execution of this task.
+	 * Sets the responsible for the execution of this task.
 	 * 
-	 * @param taskExecution
-	 *            the responsible by the execution of this task.
+	 * @param taskExecution the responsible by the execution of this task.
 	 */
 	public void setTaskExecution(TaskExecution taskExecution) {
 		this.taskExecution = taskExecution;
-		this.wasRecentlyPreempted = false;
+		this.hasBeenRecentlyPreempted = false;
 	}
 
 	public void prioritizeResourcesToConsume(List<Machine> resources) {
@@ -225,8 +227,7 @@ public class Task extends ComputableElement implements Comparable<Task>,
 	public void finish(long time) {
 		assert this.finishTime == null || isAnyReplicaFinished();
 		assert this.startTime != null;
-		this.hasRunnedLocally = this.sourceJob.getSourcePeer().hasMachine(
-				this.taskExecution.getMachine().getName());
+		this.hasRunnedLocally = this.sourceJob.getSourcePeer().hasMachine(this.taskExecution.getMachine().getName());
 		this.taskExecution.finish();
 		this.finishTime = time;
 	}
@@ -241,10 +242,9 @@ public class Task extends ComputableElement implements Comparable<Task>,
 			this.targetPeer = null;
 			this.taskExecution.finish();
 			// this.taskExecution = null;
-			this.wasRecentlyPreempted = true;
+			this.hasBeenRecentlyPreempted = true;
 		} else {
-			System.err.println("Tentou preemptar uma já concluída: " + time
-					+ " " + this);
+			System.err.println("Attemps to preempt an already finished task: " + time + " " + this);
 		}
 	}
 
@@ -262,8 +262,8 @@ public class Task extends ComputableElement implements Comparable<Task>,
 	}
 
 	/**
-	 * Invoking this method means this task is ready to be executed, that is,
-	 * there is already a {@link #taskExecution} seted in this task.
+	 * Invoking this method means this task is ready to be executed, that is, there
+	 * is already a {@link #taskExecution} assigned in this task.
 	 * 
 	 * @see com.edigley.oursim.entities.ComputableElement#setStartTime(long)
 	 */
@@ -275,8 +275,8 @@ public class Task extends ComputableElement implements Comparable<Task>,
 
 	@Override
 	public Long getEstimatedFinishTime() {
-		assert taskExecution != null : this;
-		assert startTime != null : this;
+		assert (taskExecution != null) : this;
+		assert (startTime != null) : this;
 		if (startTime != null) {
 			// return this.getStartTime() +
 			// taskExecution.getRemainingTimeToFinish();
@@ -321,8 +321,7 @@ public class Task extends ComputableElement implements Comparable<Task>,
 				// assert false : "\n" + this + "\n" + t;
 				// return this.hashCode() == t.hashCode() ? 0 : (this.hashCode()
 				// > t.hashCode() ? 1 : -1);
-				return this.hashCode() == t.hashCode() ? 0
-						: (this.replicaId > t.getReplicaId() ? 1 : -1);
+				return this.hashCode() == t.hashCode() ? 0 : (this.replicaId > t.getReplicaId() ? 1 : -1);
 			} else {
 				return -2;
 			}
@@ -385,7 +384,7 @@ public class Task extends ComputableElement implements Comparable<Task>,
 	}
 
 	public boolean wasRecentlyPreempted() {
-		return wasRecentlyPreempted;
+		return hasBeenRecentlyPreempted;
 	}
 
 	public boolean wasPreempted() {
@@ -418,11 +417,13 @@ public class Task extends ComputableElement implements Comparable<Task>,
 		return onlyTheActiveReplicas;
 	}
 
+	public boolean isAnEligibleMachine(Machine machine) {
+		return this.numberOfCores <= machine.getNumberOfFreeProcessors();
+	}
+
 	private boolean isActive() {
 		// TODO: hora de adicionar uma máquina de estados!
-		return this.isRunning()
-				|| (!this.isFinished() && !this.wasPreempted() && !this
-						.isCancelled());
+		return this.isRunning() || (!this.isFinished() && !this.wasPreempted() && !this.isCancelled());
 	}
 
 	public long getReplicaId() {
@@ -449,20 +450,13 @@ public class Task extends ComputableElement implements Comparable<Task>,
 		// [id, duration, submissionTime, startTime, finishTime,
 		// numberOfpreemptions]
 		// return this.id+"";
-		return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
-				.append("id", id)
-				.append("sourceJob", sourceJob.getId())
-				.append("sourcePeer", getSourcePeer().getName())
-				.append("duration", duration)
-				.append("submissionTime", submissionTime)
-				.append("startTime", startTime)
-				.append("finishTime", finishTime)
-				.append("targetPeer",
-						targetPeer != null ? targetPeer.getName() : "")
-				.append("numberOfpreemptions", numberOfpreemptions)
-				.append("executable", executable)
-				.append("replicaId", replicaId).append("cancelled", cancelled)
-				.toString();
+		return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE).append("id", id)
+				.append("sourceJob", sourceJob.getId()).append("sourcePeer", getSourcePeer().getName())
+				.append("numberOfCores", numberOfCores).append("duration", duration)
+				.append("submissionTime", submissionTime).append("startTime", startTime)
+				.append("finishTime", finishTime).append("targetPeer", targetPeer != null ? targetPeer.getName() : "")
+				.append("numberOfpreemptions", numberOfpreemptions).append("executable", executable)
+				.append("replicaId", replicaId).append("cancelled", cancelled).toString();
 	}
 
 	public double getBidValue() {
@@ -487,6 +481,14 @@ public class Task extends ComputableElement implements Comparable<Task>,
 
 	public double getWastedTime() {
 		return wastedTime;
+	}
+
+	public int getNumberOfCores() {
+		return numberOfCores;
+	}
+
+	public void setNumberOfCores(int numberOfCores) {
+		this.numberOfCores = numberOfCores;
 	}
 
 }

@@ -33,31 +33,31 @@ public class TaskPrintOutput extends OutputAdapter {
 
 	@Override
 	public void taskStarted(Event<Task> taskEvent) {
-		Task Task = taskEvent.getSource();
-		String machineName = Task.getTaskExecution().getMachine().getName();
-		super.appendln("(S:" + Task.getStartTime() + ":" + Task.getId() + ":" + Task.getReplicaId() + ":" + machineName + ":" + Task.getEstimatedFinishTime()
+		Task task = taskEvent.getSource();
+		String machineName = task.getTaskExecution().getMachine().getName();
+		super.appendln("(S:" + task.getStartTime() + ":" + task.getId() + ":" + task.getReplicaId() + ":" + machineName + ":" + task.getEstimatedFinishTime()
 				+ ")");
 	}
 
 	@Override
 	public void taskPreempted(Event<Task> taskEvent) {
-		Task Task = taskEvent.getSource();
-		String machineName = Task.getTaskExecution().getMachine().getName();
-		super.appendln("(P:" + taskEvent.getTime() + ":" + Task.getId() + ":" + Task.getReplicaId() + ":" + machineName + ")");
+		Task task = taskEvent.getSource();
+		String machineName = task.getTaskExecution().getMachine().getName();
+		super.appendln("(P:" + taskEvent.getTime() + ":" + task.getId() + ":" + task.getReplicaId() + ":" + machineName + ")");
 	}
 
 	@Override
 	public void taskFinished(Event<Task> taskEvent) {
-		Task Task = taskEvent.getSource();
-		String machineName = Task.getTaskExecution().getMachine().getName();
-		super.appendln("(F:" + Task.getFinishTime() + ":" + Task.getId() + ":" + Task.getReplicaId() + ":" + machineName + ")");
+		Task task = taskEvent.getSource();
+		String machineName = task.getTaskExecution().getMachine().getName();
+		super.appendln("(F:" + task.getFinishTime() + ":" + task.getId() + ":" + task.getReplicaId() + ":" + machineName + ")");
 	}
 
 	@Override
 	public void taskCancelled(Event<Task> taskEvent) {
-		Task Task = taskEvent.getSource();
-		String machineName = Task.getTaskExecution().getMachine().getName();
-		super.appendln("(C:" + taskEvent.getTime() + ":" + Task.getId() + ":" + Task.getReplicaId() + ":" + machineName + ")");
+		Task task = taskEvent.getSource();
+		String machineName = task.getTaskExecution().getMachine().getName();
+		super.appendln("(C:" + taskEvent.getTime() + ":" + task.getId() + ":" + task.getReplicaId() + ":" + machineName + ")");
 	}
 
 }

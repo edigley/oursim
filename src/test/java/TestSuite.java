@@ -16,8 +16,15 @@ import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
 @RunWith(Suite.class)
-@SuiteClasses( { ProcessorTest.class, TaskTest.class, NoFSharingPolicyTest.class, OurGridPersistentSchedulerTest.class, OurSimAPIVolatilityTest.class,
-		OurGridReplicationSchedulerTest.class, OurGridPersistentSchedulerMultiplePeersTest.class })
+@SuiteClasses({ 
+	ProcessorTest.class, 
+	TaskTest.class, 
+	NoFSharingPolicyTest.class, 
+	OurGridPersistentSchedulerTest.class, 
+	OurSimAPIVolatilityTest.class,
+	OurGridReplicationSchedulerTest.class, 
+	OurGridPersistentSchedulerMultiplePeersTest.class 
+})
 public class TestSuite {
 
 	static class Compatibility {

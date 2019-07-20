@@ -5,7 +5,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 /**
  * 
- * A Central Processing Unit (CPU) defined in terms of Millions Instructions Per
+ * A Central Processing Unit (CPU) defined in terms of Millions of Instructions Per
  * Second (MIPS) rating.
  * 
  * @author Edigley P. Fraga, edigley@lsd.ufcg.edu.br
@@ -21,7 +21,8 @@ public class Processor implements Comparable<Processor> {
 	 * 
 	 * <pre>
 	 * 
-	 * 		This is really simple, yet Amazon manages to totally obfuscate it. Yes, a compute unit refers to one core. Here's what you actually get:
+	 * 		This is really simple, yet Amazon manages to totally obfuscate it. 
+	 * 		Yes, a compute unit refers to one core. Here's what you actually get:
 	 * 		
 	 * 		Small: 50% time-share of 1 core at &tilde;2.4GHz (effectively &tilde;1.2GHz)
 	 * 		Large: 2 cores at &tilde;2.4GHz
@@ -60,7 +61,7 @@ public class Processor implements Comparable<Processor> {
 	private final long speed;
 
 	/**
-	 * Flag indicating of this processor is busy.
+	 * Flag indicating if this processor is busy.
 	 */
 	private boolean busy = false;
 

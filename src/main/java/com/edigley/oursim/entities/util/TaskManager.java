@@ -114,7 +114,7 @@ public class TaskManager {
 	}
 
 	/**
-	 * Finishs a given task.
+	 * Finish a given task.
 	 * 
 	 * @param Task
 	 *            the given task.

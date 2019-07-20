@@ -11,15 +11,15 @@ public class TaskTest {
 	@Test
 	public void testUpdateProcessing() {
 
-		Peer p = new Peer("", FifoSharingPolicy.getInstance());
-		p.addMachine(new Machine("",Processor.EC2_COMPUTE_UNIT.getSpeed()));
-		Job j = new Job(1,0,p);
+		Peer peer = new Peer("", FifoSharingPolicy.getInstance());
+		peer.addMachine(new Machine("",Processor.EC2_COMPUTE_UNIT.getSpeed()));
+		Job job = new Job(1,0,peer);
 
-		Task Task = new Task(0, "executavel.exe", 30, 0, j);
+		Task task = new Task(0, "executavel.exe", 30, 0, job);
 
 		Processor processor = new Processor(0, 500);
 
-		TaskExecution taskExecution = new TaskExecution(Task, processor, 0);
+		TaskExecution taskExecution = new TaskExecution(task, processor, 0);
 
 		assertEquals(new Long(130), taskExecution.updateProcessing(50));
 
@@ -35,6 +35,17 @@ public class TaskTest {
 
 		assertEquals(new Long(0), taskExecution.updateProcessing(148));
 
+	}
+	
+	@Test
+	public void testMultiCoreTask() {
+		
+		Peer peer = new Peer("the-peer", FifoSharingPolicy.getInstance());
+		peer.addMachine(new Machine("the-machine", Processor.EC2_COMPUTE_UNIT.getSpeed(), 4));
+		Job job = new Job(1, 0, peer);
+
+		Task task = new Task(0, "executavel.exe", 3, 30, 0, job);
+		
 	}
 
 }

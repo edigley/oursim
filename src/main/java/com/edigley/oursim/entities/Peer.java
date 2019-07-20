@@ -293,6 +293,7 @@ public class Peer extends ActiveEntityImp implements WorkerEventListener {
 		if (allocatedMachine != null) {
 			long currentTime = getCurrentTime();
 			Processor defaultProcessor = allocatedMachine.getDefaultProcessor();
+			//TODO Check suitability for multiCore task execution
 			Task.setTaskExecution(new TaskExecution(Task, defaultProcessor, currentTime));
 			Task.setStartTime(currentTime);
 			Task.setTargetPeer(this);

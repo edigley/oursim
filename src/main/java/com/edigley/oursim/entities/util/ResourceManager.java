@@ -3,7 +3,9 @@ package com.edigley.oursim.entities.util;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.edigley.oursim.entities.Machine;
 import com.edigley.oursim.entities.Peer;
@@ -54,11 +56,12 @@ public class ResourceManager {
 		return chosen;
 	}
 
-	public Machine allocateResourceToTask(Task Task) {
+	public Machine allocateResourceToTask(Task task) {
 		assert this.hasAvailableResource();
-		LinkedList<Machine> freeResources = new LinkedList<Machine>(free.values());
-		Task.prioritizeResourcesToConsume(freeResources);
 		// TODO: considerar o caso em que nenhuma máquina satisfaz a task.
+		List<Machine> eligibleResources = free.values().stream().filter(r->task.isAnEligibleMachine(r)).collect(Collectors.toList());
+		LinkedList<Machine> freeResources = new LinkedList<Machine>(eligibleResources);
+		task.prioritizeResourcesToConsume(freeResources);
 		Machine chosen = freeResources.getFirst();
 		assert this.free.containsValue(chosen);
 		this.free.remove(chosen.getName());

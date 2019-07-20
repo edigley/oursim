@@ -53,21 +53,21 @@ public class Machine implements Comparable<Machine> {
 	 *            the machine's name.
 	 * @param processorSpeed
 	 *            the rating of all the processor of this machine.
-	 * @param numProcessor
+	 * @param numOfProcessors
 	 *            The number of processor of this machine.
 	 * @throws IllegalArgumentException
 	 *             in case <code>numProcessor < 1 </code>
 	 */
-	public Machine(String name, long processorSpeed, int numProcessor) throws IllegalArgumentException {
-		assert numProcessor > 0;
-		if (numProcessor < 1) {
+	public Machine(String name, long processorSpeed, int numOfProcessors) throws IllegalArgumentException {
+		assert numOfProcessors >= 1;
+		if (numOfProcessors < 1) {
 			throw new IllegalArgumentException("There must be at least one processor in a machine.");
 		}
 
 		this.name = name;
 		this.processors = new ArrayList<Processor>();
 
-		for (int i = 0; i < numProcessor; i++) {
+		for (int i = 0; i < numOfProcessors; i++) {
 			addProcessor(processorSpeed);
 		}
 
@@ -115,6 +115,19 @@ public class Machine implements Comparable<Machine> {
 		return null;
 	}
 
+	public List<Processor> getFreeProcessors(int nOfProcessors) {
+		if (nOfProcessors <= getNumberOfFreeProcessors()) {
+			List<Processor> freeProcessors = new ArrayList<>();
+			for (Processor processor : processors) {
+				if (!processor.isBusy()) {
+					freeProcessors.add(processor);
+				}
+			}
+			return freeProcessors;
+		}
+		return null;
+	}
+	
 	/**
 	 * 
 	 * Gets the main processor of a machine.

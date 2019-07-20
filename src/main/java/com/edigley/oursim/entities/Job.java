@@ -33,7 +33,7 @@ public class Job extends ComputableElement implements Comparable<Job> {
 	/**
 	 * The collection of Tasks that compose this job.
 	 */
-	private final List<Task> Tasks;
+	private final List<Task> tasks;
 
 	private final ResourceRankingPolicy resourceRankingPolicy;
 
@@ -84,7 +84,7 @@ public class Job extends ComputableElement implements Comparable<Job> {
 
 		sourcePeer.addJob(this);
 
-		this.Tasks = new ArrayList<Task>();
+		this.tasks = new ArrayList<Task>();
 
 		this.resourceRankingPolicy = new ResourceRankingPolicy(this);
 
@@ -111,7 +111,7 @@ public class Job extends ComputableElement implements Comparable<Job> {
 	public Job(long id, long submissionTime, long duration, Peer sourcePeer) {
 		this(id, submissionTime, sourcePeer);
 
-		this.Tasks.add(new Task(this.id, "executable.exe", duration,
+		this.tasks.add(new Task(this.id, "executable.exe", duration,
 				this.submissionTime, this));
 
 	}
@@ -127,7 +127,7 @@ public class Job extends ComputableElement implements Comparable<Job> {
 		assert Task.getSourceJob() == null;
 		if (Task.getSourceJob() == null) {
 			Task.setSourceJob(this);
-			this.Tasks.add(Task);
+			this.tasks.add(Task);
 			return true;
 		} else {
 			return false;
@@ -136,14 +136,14 @@ public class Job extends ComputableElement implements Comparable<Job> {
 
 	public int numberOfLocalResourcesUsed() {
 		int total = 0;
-		for (Task Task : Tasks) {
+		for (Task Task : tasks) {
 			total += Task.hasLocallyRunned() ? 1 : 0;
 		}
 		return total;
 	}
 
 	public int numberOfRemoteResourcesUsed() {
-		return this.Tasks.size() - numberOfLocalResourcesUsed();
+		return this.tasks.size() - numberOfLocalResourcesUsed();
 
 	}
 
@@ -153,7 +153,7 @@ public class Job extends ComputableElement implements Comparable<Job> {
 
 	private long sumOfTasksRuntime() {
 		long sum = 0;
-		for (Task Task : Tasks) {
+		for (Task Task : tasks) {
 			sum += Task.getDuration();
 		}
 		return sum;
@@ -225,7 +225,7 @@ public class Job extends ComputableElement implements Comparable<Job> {
 	 *            added, considered when executed in an reference machine.
 	 */
 	public void addTask(String executable, long duration) {
-		this.Tasks.add(new Task(nextTaskId, executable, duration,
+		this.tasks.add(new Task(nextTaskId, executable, duration,
 				submissionTime, this));
 		nextTaskId++;
 	}
@@ -237,14 +237,14 @@ public class Job extends ComputableElement implements Comparable<Job> {
 	 * @return the Tasks that compound this job.
 	 */
 	public List<Task> getTasks() {
-		return Tasks;
+		return tasks;
 	}
 
 	@Override
 	public void finish(long time) {
 		// TODO: no esquema atual esse método não tem serventia, pois um job só
 		// termina quando todas as suas Tasks tiverem terminado.
-		for (Task Task : Tasks) {
+		for (Task Task : tasks) {
 			if (!Task.isFinished()) {
 				assert false : Task;
 				Task.finish(time);
@@ -257,7 +257,7 @@ public class Job extends ComputableElement implements Comparable<Job> {
 		// a job's duration is the duration of its longest task
 		// TODO: another possibility is the sum of all of its Tasks
 		long longestTaskDuration = Long.MIN_VALUE;
-		for (Task Task : Tasks) {
+		for (Task Task : tasks) {
 			longestTaskDuration = Math.max(longestTaskDuration,
 					Task.getDuration());
 		}
@@ -268,7 +268,7 @@ public class Job extends ComputableElement implements Comparable<Job> {
 	public Long getStartTime() {
 		// a job's start time is the start time of its earlier started task
 		long earliestTaskStartTime = Long.MAX_VALUE;
-		for (Task Task : Tasks) {
+		for (Task Task : tasks) {
 			if (Task.isRunning() || Task.isFinished()) {
 				earliestTaskStartTime = Math.min(earliestTaskStartTime,
 						Task.getStartTime());
@@ -281,7 +281,7 @@ public class Job extends ComputableElement implements Comparable<Job> {
 	@Override
 	public boolean isRunning() {
 		// a job is running if at least one of its Tasks is running
-		for (Task Task : Tasks) {
+		for (Task Task : tasks) {
 			if (Task.isRunning()) {
 				return true;
 			}
@@ -302,7 +302,7 @@ public class Job extends ComputableElement implements Comparable<Job> {
 	 */
 	public List<Peer> getTargetPeers() {
 		List<Peer> targetPeers = new ArrayList<Peer>();
-		for (Task Task : Tasks) {
+		for (Task Task : tasks) {
 			targetPeers.add(Task.getTargetPeer());
 		}
 		return targetPeers;
@@ -310,7 +310,7 @@ public class Job extends ComputableElement implements Comparable<Job> {
 
 	@Override
 	public void setTargetPeer(Peer targetPeer) {
-		for (Task Task : Tasks) {
+		for (Task Task : tasks) {
 			Task.setTargetPeer(targetPeer);
 		}
 	}
@@ -330,7 +330,7 @@ public class Job extends ComputableElement implements Comparable<Job> {
 
 	@Override
 	public void setStartTime(long startTime) {
-		for (Task Task : Tasks) {
+		for (Task Task : tasks) {
 			Task.setStartTime(startTime);
 		}
 	}
@@ -339,7 +339,7 @@ public class Job extends ComputableElement implements Comparable<Job> {
 	public Long getEstimatedFinishTime() {
 		long lastTaskEstimatedFinishTime = Long.MIN_VALUE;
 		boolean allTasksAreRunning = true;
-		for (Task Task : Tasks) {
+		for (Task Task : tasks) {
 			if (allTasksAreRunning &= Task.isRunning()) {
 				lastTaskEstimatedFinishTime = Math.max(
 						lastTaskEstimatedFinishTime,
@@ -355,7 +355,7 @@ public class Job extends ComputableElement implements Comparable<Job> {
 	public Long getFinishTime() {
 		long lastFinishTime = Long.MIN_VALUE;
 		// TODO verificar se isFinished() antes
-		for (Task Task : Tasks) {
+		for (Task Task : tasks) {
 			if (Task.isFinished() || Task.isAnyReplicaFinished()) {
 				lastFinishTime = Math.max(lastFinishTime, Task.getAnyReplicaFinishTime());
 			} else {
@@ -373,7 +373,7 @@ public class Job extends ComputableElement implements Comparable<Job> {
 	@Override
 	public long getNumberOfPreemptions() {
 		long totalOfPreemptions = 0;
-		for (Task Task : Tasks) {
+		for (Task Task : tasks) {
 			totalOfPreemptions += Task.getNumberOfPreemptions();
 		}
 		return totalOfPreemptions;
@@ -437,7 +437,7 @@ public class Job extends ComputableElement implements Comparable<Job> {
 
 	public double getCost() {
 		double totalCost = 0;
-		for (Task Task : Tasks) {
+		for (Task Task : tasks) {
 			totalCost += Task.getCost();
 		}
 		return totalCost;
@@ -470,7 +470,7 @@ public class Job extends ComputableElement implements Comparable<Job> {
 		return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
 				.append("id", id).append("submissionTime", submissionTime)
 				.append("sourcePeer", sourcePeer.getName())
-				.append("#Tasks", Tasks.size()).toString();
+				.append("#Tasks", tasks.size()).toString();
 	}
 
 	@Override
@@ -493,7 +493,7 @@ public class Job extends ComputableElement implements Comparable<Job> {
 	}
 
 	public boolean isSingleJob() {
-		return Tasks.size() == 1;
+		return tasks.size() == 1;
 	}
 
 	public long getLastPreemptionTime() {
