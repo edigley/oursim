@@ -25,8 +25,8 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 public class Job extends ComputableElement implements Comparable<Job> {
 
 	/**
-	 * The peer to which this job belongs. The sourcePeer remains unchanged
-	 * during its lifetime.
+	 * The peer to which this job belongs. The sourcePeer remains unchanged during
+	 * its lifetime.
 	 */
 	private final Peer sourcePeer;
 
@@ -38,10 +38,9 @@ public class Job extends ComputableElement implements Comparable<Job> {
 	private final ResourceRankingPolicy resourceRankingPolicy;
 
 	/**
-	 * the level of replication of the Tasks that comprise this job. A
-	 * <i>value</i> less than or equal 1 means no replication. A <i>value</i>
-	 * greater than 1 means that <i>value</i> replicas will be created for each
-	 * task.
+	 * the level of replication of the Tasks that comprise this job. A <i>value</i>
+	 * less than or equal 1 means no replication. A <i>value</i> greater than 1
+	 * means that <i>value</i> replicas will be created for each task.
 	 */
 	private int replicationLevel = 0;
 
@@ -62,14 +61,11 @@ public class Job extends ComputableElement implements Comparable<Job> {
 	 * Tasks must be added by calling the method {@link Job#addTask(Task)} or
 	 * {@link Job#addTask(String, long)} to fulfill the creation of a job.
 	 * 
-	 * @param id
-	 *            The identifier of this Job. The job ID is a positive long. The
-	 *            job ID must be unique and remains unchanged during its
-	 *            lifetime.
-	 * @param submissionTime
-	 *            The instant at which this job must be submitted.
-	 * @param sourcePeer
-	 *            The peer to which this job belongs.
+	 * @param id             The identifier of this Job. The job ID is a positive
+	 *                       long. The job ID must be unique and remains unchanged
+	 *                       during its lifetime.
+	 * @param submissionTime The instant at which this job must be submitted.
+	 * @param sourcePeer     The peer to which this job belongs.
 	 */
 	public Job(long id, long submissionTime, Peer sourcePeer) {
 		super(id, submissionTime);
@@ -92,27 +88,22 @@ public class Job extends ComputableElement implements Comparable<Job> {
 
 	/**
 	 * 
-	 * Constructor intended for jobs with only one task. In this special case,
-	 * the only task in this job share with it its id.
+	 * Constructor intended for jobs with only one task. In this special case, the
+	 * only task in this job share with it its id.
 	 * 
-	 * @param id
-	 *            The identifier of this Job. The job ID is a positive long. The
-	 *            job ID must be unique and remains unchanged during its
-	 *            lifetime.
-	 * @param submissionTime
-	 *            The instant at which this job must be submitted.
-	 * @param duration
-	 *            The duration in unit of simulation (seconds) of the only task
-	 *            contained in this job, considered when executed in an
-	 *            reference machine.
-	 * @param sourcePeer
-	 *            The peer to which this job belongs.
+	 * @param id             The identifier of this Job. The job ID is a positive
+	 *                       long. The job ID must be unique and remains unchanged
+	 *                       during its lifetime.
+	 * @param submissionTime The instant at which this job must be submitted.
+	 * @param duration       The duration in unit of simulation (seconds) of the
+	 *                       only task contained in this job, considered when
+	 *                       executed in an reference machine.
+	 * @param sourcePeer     The peer to which this job belongs.
 	 */
 	public Job(long id, long submissionTime, long duration, Peer sourcePeer) {
 		this(id, submissionTime, sourcePeer);
 
-		this.tasks.add(new Task(this.id, "executable.exe", duration,
-				this.submissionTime, this));
+		this.tasks.add(new Task(this.id, "executable.exe", duration, this.submissionTime, this));
 
 	}
 
@@ -120,8 +111,7 @@ public class Job extends ComputableElement implements Comparable<Job> {
 	 * Adds a task to this job. The task to be added mustn't belong to any other
 	 * job.
 	 * 
-	 * @param Task
-	 *            The task to be added.
+	 * @param Task The task to be added.
 	 */
 	public boolean addTask(Task Task) {
 		assert Task.getSourceJob() == null;
@@ -160,8 +150,8 @@ public class Job extends ComputableElement implements Comparable<Job> {
 	}
 
 	/**
-	 * Goodput is the alocation time when a remote executing application uses
-	 * the CPU to make forward progress. 
+	 * Goodput is the alocation time when a remote executing application uses the
+	 * CPU to make forward progress.
 	 * 
 	 * @return
 	 */
@@ -178,17 +168,19 @@ public class Job extends ComputableElement implements Comparable<Job> {
 	}
 
 	/**
-	 * For programs executed in parallel, the CPU time will be the sum of CPU times devoted to the task by each CPU running it.
+	 * For programs executed in parallel, the CPU time will be the sum of CPU times
+	 * devoted to the task by each CPU running it.
+	 * 
 	 * @return
 	 */
 	public long getCPUTime() {
 		return getGoodput();
 	}
-	
+
 	/**
 	 * 
-	 * Badput is the execution time being wasted. Badput happens due to failures
-	 * on cancelled tasks.
+	 * Badput is the execution time being wasted. Badput happens due to failures on
+	 * cancelled tasks.
 	 * 
 	 * @return
 	 */
@@ -206,8 +198,8 @@ public class Job extends ComputableElement implements Comparable<Job> {
 
 	/**
 	 * 
-	 * The notion of total CPU time is the sum of CPU time consumed by all of
-	 * the CPUs utilized by this job, including cancelled and preempted tasks.
+	 * The notion of total CPU time is the sum of CPU time consumed by all of the
+	 * CPUs utilized by this job, including cancelled and preempted tasks.
 	 * 
 	 * @return
 	 */
@@ -218,15 +210,12 @@ public class Job extends ComputableElement implements Comparable<Job> {
 	/**
 	 * Adds a task to this job by the information of its executing parameters.
 	 * 
-	 * @param executable
-	 *            The name of the executable of the task.
-	 * @param duration
-	 *            The duration in unit of simulation (seconds) of the task to be
-	 *            added, considered when executed in an reference machine.
+	 * @param executable The name of the executable of the task.
+	 * @param duration   The duration in unit of simulation (seconds) of the task to
+	 *                   be added, considered when executed in an reference machine.
 	 */
 	public void addTask(String executable, long duration) {
-		this.tasks.add(new Task(nextTaskId, executable, duration,
-				submissionTime, this));
+		this.tasks.add(new Task(nextTaskId, executable, duration, submissionTime, this));
 		nextTaskId++;
 	}
 
@@ -258,8 +247,7 @@ public class Job extends ComputableElement implements Comparable<Job> {
 		// TODO: another possibility is the sum of all of its Tasks
 		long longestTaskDuration = Long.MIN_VALUE;
 		for (Task Task : tasks) {
-			longestTaskDuration = Math.max(longestTaskDuration,
-					Task.getDuration());
+			longestTaskDuration = Math.max(longestTaskDuration, Task.getDuration());
 		}
 		return longestTaskDuration;
 	}
@@ -270,12 +258,10 @@ public class Job extends ComputableElement implements Comparable<Job> {
 		long earliestTaskStartTime = Long.MAX_VALUE;
 		for (Task Task : tasks) {
 			if (Task.isRunning() || Task.isFinished()) {
-				earliestTaskStartTime = Math.min(earliestTaskStartTime,
-						Task.getStartTime());
+				earliestTaskStartTime = Math.min(earliestTaskStartTime, Task.getStartTime());
 			}
 		}
-		return earliestTaskStartTime != Long.MAX_VALUE ? earliestTaskStartTime
-				: null;
+		return earliestTaskStartTime != Long.MAX_VALUE ? earliestTaskStartTime : null;
 	}
 
 	@Override
@@ -341,9 +327,7 @@ public class Job extends ComputableElement implements Comparable<Job> {
 		boolean allTasksAreRunning = true;
 		for (Task Task : tasks) {
 			if (allTasksAreRunning &= Task.isRunning()) {
-				lastTaskEstimatedFinishTime = Math.max(
-						lastTaskEstimatedFinishTime,
-						Task.getEstimatedFinishTime());
+				lastTaskEstimatedFinishTime = Math.max(lastTaskEstimatedFinishTime, Task.getEstimatedFinishTime());
 			} else {
 				return null;
 			}
@@ -391,8 +375,7 @@ public class Job extends ComputableElement implements Comparable<Job> {
 	/**
 	 * Gets the level of replication of the Tasks that comprise this job. A
 	 * <i>value</i> less than or equal 1 means no replication. A <i>value</i>
-	 * greater than 1 means that <i>value</i> replies will be created for each
-	 * task.
+	 * greater than 1 means that <i>value</i> replies will be created for each task.
 	 * 
 	 * @return the level of replication of the Tasks that comprise this job.
 	 */
@@ -403,11 +386,10 @@ public class Job extends ComputableElement implements Comparable<Job> {
 	/**
 	 * Sets the level of replication of the Tasks that comprise this job. A
 	 * <i>value</i> less than or equal 1 means no replication. A <i>value</i>
-	 * greater than 1 means that <i>value</i> replies will be created for each
-	 * task.
+	 * greater than 1 means that <i>value</i> replies will be created for each task.
 	 * 
-	 * @param replicationLevel
-	 *            the level of replication of the Tasks that comprise this job
+	 * @param replicationLevel the level of replication of the Tasks that comprise
+	 *                         this job
 	 */
 	public void setReplicationLevel(int replicationLevel) {
 		this.replicationLevel = replicationLevel;
@@ -421,8 +403,7 @@ public class Job extends ComputableElement implements Comparable<Job> {
 				return 2;
 			} else if (id == j.getId()) {
 				assert false;
-				return this.hashCode() == j.hashCode() ? 0
-						: (this.hashCode() > j.hashCode() ? 1 : -1);
+				return this.hashCode() == j.hashCode() ? 0 : (this.hashCode() > j.hashCode() ? 1 : -1);
 			} else {
 				return -2;
 			}
@@ -467,9 +448,8 @@ public class Job extends ComputableElement implements Comparable<Job> {
 	}
 
 	public String toString() {
-		return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
-				.append("id", id).append("submissionTime", submissionTime)
-				.append("sourcePeer", sourcePeer.getName())
+		return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE).append("id", id)
+				.append("submissionTime", submissionTime).append("sourcePeer", sourcePeer.getName())
 				.append("#Tasks", tasks.size()).toString();
 	}
 
@@ -478,18 +458,15 @@ public class Job extends ComputableElement implements Comparable<Job> {
 		if (!(other instanceof Job))
 			return false;
 		Job castOther = (Job) other;
-		return new EqualsBuilder().append(id, castOther.id)
-				.append(sourcePeer.getName(), castOther.sourcePeer.getName())
-				.append(replicationLevel, castOther.replicationLevel)
-				.append(userId, castOther.userId)
+		return new EqualsBuilder().append(id, castOther.id).append(sourcePeer.getName(), castOther.sourcePeer.getName())
+				.append(replicationLevel, castOther.replicationLevel).append(userId, castOther.userId)
 				.append(thinkTime, castOther.thinkTime).isEquals();
 	}
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(id).append(sourcePeer.getName())
-				.append(replicationLevel).append(userId).append(thinkTime)
-				.toHashCode();
+		return new HashCodeBuilder().append(id).append(sourcePeer.getName()).append(replicationLevel).append(userId)
+				.append(thinkTime).toHashCode();
 	}
 
 	public boolean isSingleJob() {

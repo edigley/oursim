@@ -21,11 +21,10 @@ public abstract class ComputableElement {
 	/**
 	 * The instant at which this ComputableElement has been submitted.
 	 */
-	protected final long submissionTime;//TODO deve ser final
+	protected final long submissionTime;// TODO deve ser final
 
 	/**
-	 * @param id
-	 *            The identifier of this ComputableElement.
+	 * @param id The identifier of this ComputableElement.
 	 */
 	public ComputableElement(long id, long submissionTime) {
 		this.id = id;
@@ -43,15 +42,14 @@ public abstract class ComputableElement {
 	 * Gets the total of unit of simulation (seconds) elapsed since this
 	 * ComputableElement has been submitted until it is finished.
 	 * 
-	 * For programs executed in parallel, the CPU time will be the sum of 
-	 * CPU times devoted to the task by each CPU running it. 
-	 * In this case the wall time will be substantially reduced (it takes 
-	 * less perceived time to finish), whereas the total CPU time will 
-	 * remain equal to the one for serial execution (plus some overhead for 
-	 * parallelization).
+	 * For programs executed in parallel, the CPU time will be the sum of CPU times
+	 * devoted to the task by each CPU running it. In this case the wall time will
+	 * be substantially reduced (it takes less perceived time to finish), whereas
+	 * the total CPU time will remain equal to the one for serial execution (plus
+	 * some overhead for parallelization).
 	 * 
-	 * @return the makespan or <code>null</code> if this ComputableElement
-	 *         hasn't been finished yet.
+	 * @return the makespan or <code>null</code> if this ComputableElement hasn't
+	 *         been finished yet.
 	 */
 	public Long getMakeSpan() {
 		return this.isFinished() ? getFinishTime() - getSubmissionTime() : null;
@@ -61,9 +59,9 @@ public abstract class ComputableElement {
 	 * Gets the total number of seconds elapsed since this ComputableElement has
 	 * been running.
 	 * 
-	 * @return the total number of seconds elapsed since this ComputableElement
-	 *         has been running or <code>null</code> if this ComputableElement
-	 *         hasn't been finished yet.
+	 * @return the total number of seconds elapsed since this ComputableElement has
+	 *         been running or <code>null</code> if this ComputableElement hasn't
+	 *         been finished yet.
 	 */
 	public Long getRunningTime() {
 		return this.isFinished() ? getFinishTime() - getStartTime() : null;
@@ -73,11 +71,10 @@ public abstract class ComputableElement {
 	 * Gets the total number of seconds elapsed since this ComputableElement has
 	 * been running until the currentTime.
 	 * 
-	 * @param currentTime
-	 *            The current time.
-	 * @return the total number of seconds elapsed since this ComputableElement
-	 *         has been running or <code>null</code> if this ComputableElement
-	 *         hasn't been finished yet.
+	 * @param currentTime The current time.
+	 * @return the total number of seconds elapsed since this ComputableElement has
+	 *         been running or <code>null</code> if this ComputableElement hasn't
+	 *         been finished yet.
 	 */
 	public Long getRunningTime(long currentTime) {
 		assert currentTime >= getStartTime();
@@ -85,10 +82,9 @@ public abstract class ComputableElement {
 	}
 
 	/**
-	 * Gets the total of unit of simulation (seconds) that this
-	 * ComputableElement has elapsed in a Queue, that is, from the submission
-	 * instant until the finish, the time in which this ComputableElement was
-	 * not running.
+	 * Gets the total of unit of simulation (seconds) that this ComputableElement
+	 * has elapsed in a Queue, that is, from the submission instant until the
+	 * finish, the time in which this ComputableElement was not running.
 	 * 
 	 * @return the queuing time or <code>null</code> if this ComputableElement
 	 *         hasn't been finished yet.
@@ -106,8 +102,7 @@ public abstract class ComputableElement {
 
 	/**
 	 * @return The duration in unit of simulation (seconds) of this
-	 *         ComputableElement, considered when executed in an reference
-	 *         machine.
+	 *         ComputableElement, considered when executed in an reference machine.
 	 */
 	public abstract long getDuration();
 
@@ -120,17 +115,16 @@ public abstract class ComputableElement {
 	 * 
 	 * Sets the instant at which this ComputableElement started its computation.
 	 * 
-	 * @param startTime
-	 *            The instant at which this ComputableElement started its
-	 *            computation.
+	 * @param startTime The instant at which this ComputableElement started its
+	 *                  computation.
 	 */
 	public abstract void setStartTime(long startTime);
 
 	/**
 	 * 
-	 * Gets an estimate of when this ComputableElement is going to finish.
-	 * Notice: the value is just an estimate because the volatility of the
-	 * subjacent resources in which this ComputableElement is being executed.
+	 * Gets an estimate of when this ComputableElement is going to finish. Notice:
+	 * the value is just an estimate because the volatility of the subjacent
+	 * resources in which this ComputableElement is being executed.
 	 * 
 	 * @return an estimate of when this ComputableElement is going to finish.
 	 */
@@ -140,8 +134,8 @@ public abstract class ComputableElement {
 	 * The instant at which this ComputableElement has been finished.
 	 * 
 	 * @return The instant at which this ComputableElement has been finished. If
-	 *         this ComputableElement hasn't been finished yet,
-	 *         <code>null</code> is returned.
+	 *         this ComputableElement hasn't been finished yet, <code>null</code> is
+	 *         returned.
 	 */
 	public abstract Long getFinishTime();
 
@@ -155,9 +149,8 @@ public abstract class ComputableElement {
 	/**
 	 * Sets the peer in which this ComputableElement is going to be executed.
 	 * 
-	 * @param targetPeer
-	 *            the peer in which this ComputableElement is going to be
-	 *            executed.
+	 * @param targetPeer the peer in which this ComputableElement is going to be
+	 *                   executed.
 	 */
 	public abstract void setTargetPeer(Peer targetPeer);
 
@@ -173,13 +166,12 @@ public abstract class ComputableElement {
 
 	/**
 	 * Performs a preemption in this ComputableElement. This means the subjacent
-	 * resources in which this Computable Element was being executed, whatever
-	 * the reason, became unavailable for this ComputableElement. Unlike
+	 * resources in which this Computable Element was being executed, whatever the
+	 * reason, became unavailable for this ComputableElement. Unlike
 	 * {@link ComputableElement#finish(long)}, invoking this method means the
 	 * computation being performed until the invocation must be wasted.
 	 * 
-	 * @param preemptionTime
-	 *            The instant at which the preemption has been occured.
+	 * @param preemptionTime The instant at which the preemption has been occured.
 	 * @see {@link ComputableElement#finish(long)}
 	 */
 	public abstract void preempt(long preemptionTime);
@@ -190,27 +182,28 @@ public abstract class ComputableElement {
 	 * {@link ComputableElement#preempt(long)}, invoking this method means the
 	 * computation being performed until the invocation must be utilized.
 	 * 
-	 * @param finishTime
-	 *            The time at which this ComputableElement has been finished.
+	 * @param finishTime The time at which this ComputableElement has been finished.
 	 * @see {@link ComputableElement#preempt(long)}
 	 */
 	public abstract void finish(long finishTime);
 
 	/**
 	 * 
-	 * Tests if this ComputableElement is running. A ComputableElement is
-	 * running if it has been started and has not yet finished or preempted.
+	 * Tests if this ComputableElement is running. A ComputableElement is running if
+	 * it has been started and has not yet finished or preempted.
 	 * 
-	 * @return <code>true</false> if this thread is running; <code>false</false> otherwise.
+	 * @return <code>true</false> if this thread is running; <code>false</false>
+	 *         otherwise.
 	 */
 	public abstract boolean isRunning();
 
 	/**
 	 * 
-	 * Tests if this ComputableElement is finished. A ComputableElement is
-	 * finished if it has been started and has succesfully been finished.
+	 * Tests if this ComputableElement is finished. A ComputableElement is finished
+	 * if it has been started and has succesfully been finished.
 	 * 
-	 * @return <code>true</false> if this thread is finished; <code>false</false> otherwise.
+	 * @return <code>true</false> if this thread is finished; <code>false</false>
+	 *         otherwise.
 	 */
 	public abstract boolean isFinished();
 

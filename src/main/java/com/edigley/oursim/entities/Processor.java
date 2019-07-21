@@ -150,7 +150,7 @@ public class Processor implements Comparable<Processor> {
 	 * @see {@link #calculateTimeToExecute(long)}
 	 */
 	public long calculateNumberOfInstructionsProcessed(long duration) throws IllegalArgumentException {
-		assert duration > 0;
+		assert duration > 0 : duration + " > " + 0;
 		if (duration < 1) {
 			throw new IllegalArgumentException("duration must be at least 1.");
 		}

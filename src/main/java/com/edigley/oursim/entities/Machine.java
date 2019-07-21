@@ -116,15 +116,18 @@ public class Machine implements Comparable<Machine> {
 	}
 
 	public List<Processor> getFreeProcessors(int nOfProcessors) {
+		assert nOfProcessors > 0 ;
 		if (nOfProcessors <= getNumberOfFreeProcessors()) {
 			List<Processor> freeProcessors = new ArrayList<>();
 			for (Processor processor : processors) {
-				if (!processor.isBusy()) {
+				if (!processor.isBusy() && freeProcessors.size() < nOfProcessors) {
 					freeProcessors.add(processor);
 				}
 			}
+			assert freeProcessors.size() == nOfProcessors;
 			return freeProcessors;
 		}
+		assert nOfProcessors > getNumberOfFreeProcessors();
 		return null;
 	}
 	
