@@ -33,6 +33,8 @@ public class Machine implements Comparable<Machine> {
 	 */
 	private List<Processor> processors;
 
+	private String label;
+
 	/**
 	 * An special constructor for a monoprocessed machine.
 	 * 
@@ -76,6 +78,11 @@ public class Machine implements Comparable<Machine> {
 
 	}
 
+	public Machine(String name, long processorSpeed, int numOfProcessors, String label) {
+		this(name, processorSpeed, numOfProcessors);
+		this.label = label;
+	}
+	
 	private void addProcessor(long speed) {
 		int processorId = this.processors.size();
 		this.processors.add(new Processor(processorId, speed, this));
@@ -86,6 +93,14 @@ public class Machine implements Comparable<Machine> {
 	 */
 	public String getName() {
 		return name;
+	}
+
+	public String getLabel() {
+		return label;
+	}
+
+	public void setLabel(String label) {
+		this.label = label;
 	}
 
 	/**
@@ -116,7 +131,7 @@ public class Machine implements Comparable<Machine> {
 	}
 
 	public List<Processor> getFreeProcessors(int nOfProcessors) {
-		assert nOfProcessors > 0 ;
+		assert nOfProcessors > 0;
 		if (nOfProcessors <= getNumberOfFreeProcessors()) {
 			List<Processor> freeProcessors = new ArrayList<>();
 			for (Processor processor : processors) {
@@ -130,7 +145,7 @@ public class Machine implements Comparable<Machine> {
 		assert nOfProcessors > getNumberOfFreeProcessors();
 		return null;
 	}
-	
+
 	/**
 	 * 
 	 * Gets the main processor of a machine.
@@ -146,18 +161,25 @@ public class Machine implements Comparable<Machine> {
 		return (int) (this.id - o.id);
 	}
 
-	@Override
-	public String toString() {
-		return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE).append("name", name).append("#processors", processors.size()).append(
-				"processors rating", getDefaultProcessor().getSpeed()).toString();
-	}
-
 	public boolean isAllProcessorsFree() {
 		return this.getNumberOfFreeProcessors() == this.getNumberOfProcessors();
 	}
 
 	public boolean isAnyProcessorBusy() {
 		return !isAllProcessorsFree();
+	}
+
+	@Override
+	public String toString() {
+		return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
+
+				.append("name", name)
+
+				.append("#processors", processors.size())
+
+				.append("processors_rating", getDefaultProcessor().getSpeed())
+
+				.toString();
 	}
 
 }
